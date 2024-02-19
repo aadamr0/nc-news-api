@@ -53,7 +53,7 @@ describe("Given incorrect route:", () => {
   });
 });
 
-describe.only("Get: /api", () => {
+describe("Get: /api", () => {
   it("should respond with list of endpoints and information", () => {
     return request(app)
       .get("/api")
