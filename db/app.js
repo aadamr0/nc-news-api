@@ -1,11 +1,11 @@
 const express = require("express");
-const { getTopics } = require("./app.controller.js");
+const { getTopics, getApi } = require("./app.controller.js");
 
 const app = express();
 
-app.use(express.json());
-
 app.get("/api/topics", getTopics);
+
+app.get("/api", getApi);
 
 app.all("/*", (req, res, next) => {
   res.status(404).send({ msg: "route does not exist" });

@@ -39,13 +39,32 @@ describe("GET api/topics", () => {
         });
     });
   });
-  describe('Given incorrect route:', () => {
-    it('Returns status 404 and error message.', () => {
-        return request(app).get('/api/invalidroute').expect(404)
-        .then((response) => {
-            // console.log(response);
-            expect(response.body.msg).toBe('route does not exist')
-        })
-    });
+});
+
+describe("Given incorrect route:", () => {
+  it("Returns status 404 and error message.", () => {
+    return request(app)
+      .get("/api/invalidroute")
+      .expect(404)
+      .then((response) => {
+        // console.log(response);
+        expect(response.body.msg).toBe("route does not exist");
+      });
+  });
+});
+
+describe("Get: /api", () => {
+  it("should respond with list of endpoints and information", () => {
+    return request(app)
+      .get("/api")
+      .expect(200)
+      .then((response) => {
+        for (const api in response.body) {
+          expect("description" in response.body[api]).toBe(true);
+          expect("queries" in response.body[api]).toBe(true);
+          expect("exampleResponse" in response.body[api]).toBe(true);
+          expect("requestFormat" in response.body[api]).toBe(true);
+        }
+      });
   });
 });
