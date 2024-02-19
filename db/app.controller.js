@@ -18,7 +18,8 @@ function getTopics(req, res, next) {
 function getApi(req, res, next) {
   // select from list of api endpoints json file
   selectApis().then((apiObj) => {
-    res.status(200).send(apiObj);
+    console.log(apiObj);
+    res.status(200).send({apiObj});
   });
 }
 
