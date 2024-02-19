@@ -30,5 +30,11 @@
       ]
     },
     "requestFormat": ""
+  },
+  "GET /api/articles/:article_id": {
+    "description": "serves an array of all articles",
+    "queries": [],
+    "exampleResponse": {},
+    "requestFormat": ""
   }
 }
