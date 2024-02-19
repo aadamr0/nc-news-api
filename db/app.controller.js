@@ -1,10 +1,15 @@
-const { selectTopics } = require('./app.models.js')
+const { selectTopics } = require("./app.models.js");
 
 function getTopics(req, res, next) {
-  const topics = selectTopics()
-  res.status(200).send(topics)
-
-  //not sure about error handling here?^
+    //call select topics an send, pass any error with next
+    selectTopics()
+    .then((results) => {
+        console.log(results);
+        res.status(200).send(results)
+    })
+    .catch((err) => {
+        next(err)
+    })
 }
 
 module.exports = {
