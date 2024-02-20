@@ -12,7 +12,7 @@ const db = require("../db/connection.js");
 beforeEach(() => seed({ topicData, userData, articleData, commentData }));
 afterAll(() => db.end());
 
-describe("GET api/topics", () => {
+describe("GET /api/topics", () => {
   describe("Given correct route:", () => {
     it("Returns status 200", () => {
       return request(app).get("/api/topics").expect(200);
@@ -40,7 +40,6 @@ describe("GET api/topics", () => {
     });
   });
 });
-
 describe("Get: /api", () => {
   it("should respond with list of endpoints and information", () => {
     return request(app)
@@ -56,7 +55,6 @@ describe("Get: /api", () => {
       });
   });
 });
-
 describe("Get: /api/articles/:article_id", () => {
   it("should respond with status 200 and the article requested by id", () => {
     return request(app)
@@ -93,7 +91,26 @@ describe("Get: /api/articles/:article_id", () => {
       });
   });
 });
-
+describe('Get /api/articles', () => {
+  it('should respond with a list of all articles, ommitting their body', () => {
+    return request(app)
+    .get('/api/articles')
+    .expect(200)
+    .then((response) => {
+       console.log(response.body.articlesArray[0]);
+       if (response.body.articlesArray.length) {
+        expect('author' in response.body.articlesArray[0]).toBe(true)
+        expect("title" in response.body.articlesArray[0]).toBe(true);
+        expect("article_id" in response.body.articlesArray[0]).toBe(true);
+        expect("topic" in response.body.articlesArray[0]).toBe(true);
+        expect("created_at" in response.body.articlesArray[0]).toBe(true);
+        expect("votes" in response.body.articlesArray[0]).toBe(true);
+        expect("article_img_url" in response.body.articlesArray[0]).toBe(true);
+        expect("comment_count" in response.body.articlesArray[0]).toBe(true);
+       }
+    })
+  });
+});
 describe("Non existant URL reponds with 404 error", () => {
   it("Returns status 404 and error message.", () => {
     return request(app)

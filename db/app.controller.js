@@ -2,6 +2,7 @@ const {
   selectTopics,
   selectApis,
   selectArticleById,
+  selectArticles,
 } = require("./app.models.js");
 
 function getTopics(req, res, next) {
@@ -16,10 +17,8 @@ function getTopics(req, res, next) {
 }
 
 function getApi(req, res, next) {
-  // select from list of api endpoints json file
   selectApis().then((apiObj) => {
-    console.log(apiObj);
-    res.status(200).send({apiObj});
+    res.status(200).send({ apiObj });
   });
 }
 
@@ -34,8 +33,15 @@ function getArticleById(req, res, next) {
     });
 }
 
+function getArticles(req, res, next) {
+  selectArticles().then((articlesArray) => {
+    res.status(200).send({ articlesArray });
+  });
+}
+
 module.exports = {
   getTopics,
   getApi,
   getArticleById,
+  getArticles,
 };
