@@ -91,24 +91,35 @@ describe("Get: /api/articles/:article_id", () => {
       });
   });
 });
-describe('Get /api/articles', () => {
-  it('should respond with a list of all articles, ommitting their body', () => {
+describe("Get /api/articles", () => {
+  it("should respond with a list of all articles, ommitting their body", () => {
     return request(app)
-    .get('/api/articles')
-    .expect(200)
-    .then((response) => {
-       console.log(response.body.articlesArray[0]);
-       if (response.body.articlesArray.length) {
-        expect('author' in response.body.articlesArray[0]).toBe(true)
-        expect("title" in response.body.articlesArray[0]).toBe(true);
-        expect("article_id" in response.body.articlesArray[0]).toBe(true);
-        expect("topic" in response.body.articlesArray[0]).toBe(true);
-        expect("created_at" in response.body.articlesArray[0]).toBe(true);
-        expect("votes" in response.body.articlesArray[0]).toBe(true);
-        expect("article_img_url" in response.body.articlesArray[0]).toBe(true);
-        expect("comment_count" in response.body.articlesArray[0]).toBe(true);
-       }
-    })
+      .get("/api/articles")
+      .expect(200)
+      .then((response) => {
+        if (response.body.articlesArray.length) {
+          expect("author" in response.body.articlesArray[0]).toBe(true);
+          expect("title" in response.body.articlesArray[0]).toBe(true);
+          expect("article_id" in response.body.articlesArray[0]).toBe(true);
+          expect("topic" in response.body.articlesArray[0]).toBe(true);
+          expect("created_at" in response.body.articlesArray[0]).toBe(true);
+          expect("votes" in response.body.articlesArray[0]).toBe(true);
+          expect("article_img_url" in response.body.articlesArray[0]).toBe(
+            true
+          );
+          expect("comment_count" in response.body.articlesArray[0]).toBe(true);
+        }
+      });
+  });
+  it("should sort articles in order of date descending", () => {
+    return request(app)
+      .get("/api/articles")
+      .expect(200)
+      .then((response) => {
+        expect(response.body.articlesArray).toBeSortedBy("created_at", {
+          descending: true,
+        });
+      });
   });
 });
 describe("Non existant URL reponds with 404 error", () => {
