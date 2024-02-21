@@ -18,7 +18,6 @@ function selectArticleById(article_id) {
 
 function selectArticles() {
   // aim: return articles with no body and a comments count
-  //use a join here
   // to get information from 2 tables in 1 query you must join them
   // group by: ?
   return db
@@ -30,7 +29,6 @@ function selectArticles() {
     `
     )
     .then((result) => {
-      console.log(result.rows);
       return result.rows;
     })
     .catch((err) => {
