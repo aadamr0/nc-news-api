@@ -4,9 +4,8 @@ const { getApi } = require("./controllers/api.controller.js");
 const {
   getArticleById,
   getArticles,
-  postCommentByArticle,
 } = require("./controllers/articles.controller.js");
-const { getCommentsByArticleId } = require("./controllers/comments.controller.js");
+const { getCommentsByArticleId, postCommentByArticleId } = require("./controllers/comments.controller.js");
 
 const app = express();
 
@@ -20,7 +19,7 @@ app.get("/api/articles", getArticles);
 
 app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
 
-app.post("/api/articles/:article_id/comments", postCommentByArticle);
+app.post("/api/articles/:article_id/comments", postCommentByArticleId);
 
 app.all("/*", (req, res, next) => {
   res.status(404).send({ msg: "route does not exist" });

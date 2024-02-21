@@ -21,6 +21,4 @@ function getArticles(req, res, next) {
   });
 }
 
-function postCommentByArticle(req, res, next) {}
-
-module.exports = { getArticleById, getArticles, postCommentByArticle };
+module.exports = { getArticleById, getArticles };

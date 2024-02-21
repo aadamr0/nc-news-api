@@ -1,4 +1,4 @@
-const { selectCommentsByArticleId } = require("../models/comments.model.js");
+const { selectCommentsByArticleId, insertCommentByArticleId } = require("../models/comments.model.js");
 
 function getCommentsByArticleId(req, res, next) {
   const {article_id} = req.params
@@ -10,4 +10,12 @@ function getCommentsByArticleId(req, res, next) {
     next(err)
   })
 }
-module.exports = { getCommentsByArticleId };
+
+function postCommentByArticleId(req, res, next) {
+  const article_id = req.params;
+  const body = req.body;
+  // console.log(article_id, body);
+  insertCommentByArticleId(article_id, username, body)
+}
+
+module.exports = { getCommentsByArticleId, postCommentByArticleId };

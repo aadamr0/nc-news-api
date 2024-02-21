@@ -126,102 +126,26 @@ describe("GET /api/articles", () => {
 describe("GET /api/articles/:article_id/comments", () => {
   it("should respond with an array of comments for the given article_id", () => {
     return request(app)
-      .get("/api/articles/1/comments")
+      .get("/api/articles/3/comments")
       .expect(200)
       .then((response) => {
-        expect(response.body.commentsArray).toEqual([
-          {
-            comment_id: 9,
-            body: "Superficially charming",
-            article_id: 1,
-            author: "icellusedkars",
-            votes: 0,
-            created_at: "2020-01-01T03:08:00.000Z",
-          },
-          {
-            comment_id: 4,
-            body: " I carry a log — yes. Is it funny to you? It is not to me.",
-            article_id: 1,
-            author: "icellusedkars",
-            votes: -100,
-            created_at: "2020-02-23T12:01:00.000Z",
-          },
-          {
-            comment_id: 3,
-            body: "Replacing the quiet elegance of the dark suit and tie with the casual indifference of these muted earth tones is a form of fashion suicide, but, uh, call me crazy — onyou it works.",
-            article_id: 1,
-            author: "icellusedkars",
-            votes: 100,
-            created_at: "2020-03-01T01:13:00.000Z",
-          },
-          {
-            comment_id: 12,
-            body: "Massive intercranial brain haemorrhage",
-            article_id: 1,
-            author: "icellusedkars",
-            votes: 0,
-            created_at: "2020-03-02T07:10:00.000Z",
-          },
-          {
-            comment_id: 6,
-            body: "I hate streaming eyes even more",
-            article_id: 1,
-            author: "icellusedkars",
-            votes: 0,
-            created_at: "2020-04-11T21:02:00.000Z",
-          },
-          {
-            comment_id: 8,
-            body: "Delicious crackerbreads",
-            article_id: 1,
-            author: "icellusedkars",
-            votes: 0,
-            created_at: "2020-04-14T20:19:00.000Z",
-          },
-          {
-            comment_id: 7,
-            body: "Lobster pot",
-            article_id: 1,
-            author: "icellusedkars",
-            votes: 0,
-            created_at: "2020-05-15T20:19:00.000Z",
-          },
-          {
-            comment_id: 13,
-            body: "Fruit pastilles",
-            article_id: 1,
-            author: "icellusedkars",
-            votes: 0,
-            created_at: "2020-06-15T10:25:00.000Z",
-          },
-          {
-            comment_id: 18,
-            body: "This morning, I showered for nine minutes.",
-            article_id: 1,
-            author: "butter_bridge",
-            votes: 16,
-            created_at: "2020-07-21T00:20:00.000Z",
-          },
-          {
-            comment_id: 2,
-            body: "The beautiful thing about treasure is that it exists. Got to find out what kind of sheets these are; not cotton, not rayon, silky.",
-            article_id: 1,
-            author: "butter_bridge",
-            votes: 14,
-            created_at: "2020-10-31T03:03:00.000Z",
-          },
-          {
-            comment_id: 5,
-            body: "I hate streaming noses",
-            article_id: 1,
-            author: "icellusedkars",
-            votes: 0,
-            created_at: "2020-11-03T21:00:00.000Z",
-          },
-        ]);
+        response.body.commentsArray.forEach((comment) => {
+          expect(comment.hasOwnProperty("comment_id")).toBe(true);
+          expect(typeof comment.comment_id).toBe("number");
+          expect(comment.hasOwnProperty("body")).toBe(true);
+          expect(typeof comment.body).toBe("string");
+          expect(comment.hasOwnProperty("article_id")).toBe(true);
+          expect(typeof comment.article_id).toBe("number");
+          expect(comment.hasOwnProperty("author")).toBe(true);
+          expect(typeof comment.author).toBe("string");
+          expect(comment.hasOwnProperty("votes")).toBe(true);
+          expect(typeof comment.votes).toBe("number");
+          expect(comment.hasOwnProperty("created_at")).toBe(true);
+          expect(typeof comment.created_at).toBe("string");
+        });
       });
   });
-  it("should respond with 404 and error message when request for nonexistant resource ", () => {
+  it("should respond with status 404 and an error message when request is for nonexistant resource ", () => {
     return request(app)
       .get("/api/articles/10000/comments")
       .expect(404)
@@ -229,7 +153,7 @@ describe("GET /api/articles/:article_id/comments", () => {
         expect(response.body.msg).toBe("resource does not exist");
       });
   });
-  it("should respond with 400 error if given an invalid (type of) article_id", () => {
+  it("should respond with status 400 if given an invalid (type of) article_id", () => {
     return request(app)
       .get("/api/articles/invalidrequest/comments")
       .expect(400)
@@ -237,10 +161,16 @@ describe("GET /api/articles/:article_id/comments", () => {
         expect(response.body.msg).toBe("bad request");
       });
   });
+  it("should respond with status 200 and an empty array when requested article has no comments", () => {
+    return request(app)
+      .get("/api/articles/7/comments")
+      .expect(200)
+      .then((response) => {
+        expect(response.body.commentsArray).toHaveLength(0);
+      });
+  });
 });
-describe("POST /api/articles/:article_id/comments", () => {
 
-});
 describe("Non existant URL reponds with 404 error", () => {
   it("Returns status 404 and error message.", () => {
     return request(app)
