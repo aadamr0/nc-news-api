@@ -1,4 +1,7 @@
-const {selectArticleById, selectArticles} = require("../models/articles.model");
+const {
+  selectArticleById,
+  selectArticles,
+} = require("../models/articles.model");
 
 function getArticleById(req, res, next) {
   const { article_id } = req.params;
@@ -18,4 +21,6 @@ function getArticles(req, res, next) {
   });
 }
 
-module.exports = { getArticleById, getArticles };
+function postCommentByArticle(req, res, next) {}
+
+module.exports = { getArticleById, getArticles, postCommentByArticle };

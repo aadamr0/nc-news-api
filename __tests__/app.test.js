@@ -123,10 +123,10 @@ describe("GET /api/articles", () => {
       });
   });
 });
-describe("GET /api/:article_id/comments", () => {
+describe("GET /api/articles/:article_id/comments", () => {
   it("should respond with an array of comments for the given article_id", () => {
     return request(app)
-      .get("/api/1/comments")
+      .get("/api/articles/1/comments")
       .expect(200)
       .then((response) => {
         expect(response.body.commentsArray).toEqual([
@@ -223,22 +223,24 @@ describe("GET /api/:article_id/comments", () => {
   });
   it("should respond with 404 and error message when request for nonexistant resource ", () => {
     return request(app)
-    .get('/api/10000/comments')
-    .expect(404)
-    .then((response) => {
-      expect(response.body.msg).toBe('resource does not exist')
-    })
+      .get("/api/articles/10000/comments")
+      .expect(404)
+      .then((response) => {
+        expect(response.body.msg).toBe("resource does not exist");
+      });
   });
-  it('should respond with 400 error if given an invalid (type of) id', () => {
+  it("should respond with 400 error if given an invalid (type of) article_id", () => {
     return request(app)
-    .get('/api/invalidrequest/comments')
-    .expect(400)
-    .then((response) => {
-      expect(response.body.msg).toBe('bad request')
-    })
+      .get("/api/articles/invalidrequest/comments")
+      .expect(400)
+      .then((response) => {
+        expect(response.body.msg).toBe("bad request");
+      });
   });
 });
+describe("POST /api/articles/:article_id/comments", () => {
 
+});
 describe("Non existant URL reponds with 404 error", () => {
   it("Returns status 404 and error message.", () => {
     return request(app)
