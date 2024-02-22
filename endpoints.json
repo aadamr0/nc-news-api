@@ -42,5 +42,17 @@
     "queries": [],
     "exampleResponse": {},
     "requestFormat": ""
+  },
+  "PATCH /api/articles/:article_id": {
+    "description": "posts a comment to with correct article_id",
+    "queries": [],
+    "exampleResponse": {},
+    "requestFormat": ""
+  },
+  "DELETE /api/comments/:comment_id": {
+    "description": "deletes a comment by comment_id",
+    "queries": [],
+    "exampleResponse": {},
+    "requestFormat": ""
   }
 }

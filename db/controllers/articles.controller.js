@@ -30,7 +30,6 @@ function patchArticleByArticleId(req, res, next) {
       res.status(200).send({ article });
     })
     .catch((err) => {
-      console.log(err, "err passed to controller");
       next(err);
     });
 }

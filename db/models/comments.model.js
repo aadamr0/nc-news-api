@@ -48,4 +48,22 @@ function insertCommentByArticleId(article_id, username, body) {
     });
 }
 
-module.exports = { selectCommentsByArticleId, insertCommentByArticleId };
+function deleteCommentFromDb(comment_id) {
+  //cehck if comment id is in range
+  return db
+    .query(`SELECT * FROM comments WHERE comment_id=$1`, [comment_id])
+    .then((result) => {
+      if (!result.rows.length) {
+        return Promise.reject({ status: 404, msg: "not found" });
+      }
+    })
+    .then(() => {
+      return db.query(`DELETE FROM comments where comment_id=$1`, [comment_id]);
+    });
+}
+
+module.exports = {
+  selectCommentsByArticleId,
+  insertCommentByArticleId,
+  deleteCommentFromDb,
+};
