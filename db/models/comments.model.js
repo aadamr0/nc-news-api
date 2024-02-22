@@ -34,12 +34,20 @@ function insertCommentByArticleId(article_id, username, body) {
   // why can't we put something equivalent to this ^ in the controller? doesn't seem to work.
 
   return db
-    .query(
-      `INSERT INTO comments (body, article_id, author)
-  VALUES ($1, $2, $3)
-  RETURNING *`,
-      [body, article_id, username]
-    )
+    .query("SELECT * FROM articles WHERE article_id=$1", [article_id])
+    .then((results) => {
+      if (!results.rows.length) {
+        return Promise.reject({ status: 404, msg: "resource does not exist" });
+      }
+    })
+    .then(() => {
+      return db.query(
+        `INSERT INTO comments (body, article_id, author)
+        VALUES ($1, $2, $3)
+        RETURNING *`,
+        [body, article_id, username]
+      );
+    })
     .then((result) => {
       return result.rows[0];
     })
