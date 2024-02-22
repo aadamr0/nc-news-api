@@ -170,7 +170,47 @@ describe("GET /api/articles/:article_id/comments", () => {
       });
   });
 });
-
+describe.only("POST /api/articles/:article_id/comments", () => {
+  it("adds a comment to an article, responding with the comment", () => {
+    const newComment = {
+      username: "butter_bridge", //must exist (be valid user from users table)
+      body: "body1",
+    };
+    return request(app)
+      .post("/api/articles/3/comments")
+      .send(newComment)
+      .expect(201)
+      .then((res) => {
+        expect(res.body.commentObj.author).toBe("butter_bridge");
+        expect(res.body.commentObj.body).toBe("body1");
+      });
+  });
+  it("should return status 400 and error msg when given malformed body", () => {
+    const newComment = {
+      body: "body1",
+    };
+    return request(app)
+      .post("/api/articles/3/comments")
+      .send(newComment)
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("bad request");
+      });
+  });
+  it("should return status 400 when given a valid body with inappropriate values (faliing schema validation)", () => {
+    const newComment = {
+      username: 2,
+      body: "body1",
+    };
+    return request(app)
+      .post("/api/articles/3/comments")
+      .send(newComment)
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("bad request");
+      });
+  });
+});
 describe("Non existant URL reponds with 404 error", () => {
   it("Returns status 404 and error message.", () => {
     return request(app)

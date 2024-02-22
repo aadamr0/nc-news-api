@@ -12,10 +12,17 @@ function getCommentsByArticleId(req, res, next) {
 }
 
 function postCommentByArticleId(req, res, next) {
-  const article_id = req.params;
-  const body = req.body;
-  // console.log(article_id, body);
+  const {article_id} = req.params
+  const {username, body} = req.body
+  
+
   insertCommentByArticleId(article_id, username, body)
+  .then((commentObj) => {
+    res.status(201).send({commentObj})
+  })
+  .catch((err) => {
+    next(err)
+  })
 }
 
 module.exports = { getCommentsByArticleId, postCommentByArticleId };
