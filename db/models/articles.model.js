@@ -36,4 +36,14 @@ function selectArticles() {
     });
 }
 
-module.exports = { selectArticleById, selectArticles };
+function updateArticleVotes(article_id, inc_votes) {
+  return db.query(`UPDATE articles SET votes=$1 WHERE article_id=$2 RETURNING *;`, [inc_votes, article_id])
+  .then((result) => {
+    return(result.rows[0]);
+  })
+  .catch((err) => {
+    return Promise.reject(err)
+  })
+}
+
+module.exports = { selectArticleById, selectArticles, updateArticleVotes };

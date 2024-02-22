@@ -211,6 +211,40 @@ describe("POST /api/articles/:article_id/comments", () => {
       });
   });
 });
+describe("PATCH /api/articles/:article_id", () => {
+  it("update an article by article_id, changing its number of votes, responsing with the updated article", () => {
+    const update = { inc_votes: 100 };
+    return request(app)
+      .patch("/api/articles/3")
+      .send(update)
+      .expect(200)
+      .then((res) => {
+        expect(res.body.article.votes).toBe(100);
+      });
+  });
+  it("should return status 400 and error msg when given malformed body", () => {
+    const update = {
+      body: "body1",
+    };
+    return request(app)
+      .patch("/api/articles/3")
+      .send(update)
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("bad request");
+      });
+  });
+  it("should return status 400 when given a valid body with inappropriate values (faliing schema validation)", () => {
+    const update = { inc_votes: 'seven' };
+    return request(app)
+      .patch("/api/articles/3")
+      .send(update)
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("bad request");
+      });
+  });
+});
 describe("Non existant URL reponds with 404 error", () => {
   it("Returns status 404 and error message.", () => {
     return request(app)

@@ -4,6 +4,7 @@ const { getApi } = require("./controllers/api.controller.js");
 const {
   getArticleById,
   getArticles,
+  patchArticleByArticleId,
 } = require("./controllers/articles.controller.js");
 const { getCommentsByArticleId, postCommentByArticleId } = require("./controllers/comments.controller.js");
 
@@ -23,12 +24,14 @@ app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
 
 app.post("/api/articles/:article_id/comments", postCommentByArticleId);
 
+app.patch('/api/articles/:article_id', patchArticleByArticleId)
+
 app.all("/*", (req, res, next) => {
   res.status(404).send({ msg: "route does not exist" });
 });
 
 app.use((err, req, res, next) => {
-  if (err.code === "22P02" || err.code === "23503") {
+  if (err.code === "22P02" || err.code === "23503" || err.code === "23502") {
     res.status(400).send({ msg: "bad request" });
   }
   next(err);

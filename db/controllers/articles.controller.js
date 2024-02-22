@@ -1,6 +1,7 @@
 const {
   selectArticleById,
   selectArticles,
+  updateArticleVotes,
 } = require("../models/articles.model");
 
 function getArticleById(req, res, next) {
@@ -21,4 +22,17 @@ function getArticles(req, res, next) {
   });
 }
 
-module.exports = { getArticleById, getArticles };
+function patchArticleByArticleId(req, res, next) {
+  const { article_id } = req.params;
+  const { inc_votes } = req.body;
+  updateArticleVotes(article_id, inc_votes)
+    .then((article) => {
+      res.status(200).send({ article });
+    })
+    .catch((err) => {
+      console.log(err, "err passed to controller");
+      next(err);
+    });
+}
+
+module.exports = { getArticleById, getArticles, patchArticleByArticleId };
