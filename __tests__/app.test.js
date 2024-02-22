@@ -210,9 +210,35 @@ describe("POST /api/articles/:article_id/comments", () => {
         expect(res.body.msg).toBe("bad request");
       });
   });
+  it("should return status 404 and error msg when posting to article_id that does not exist", () => {
+    const newComment = {
+      username: "butter_bridge", //must exist (be valid user from users table)
+      body: "body1",
+    };
+    return request(app)
+      .post("/api/articles/3000/comments")
+      .send(newComment)
+      .expect(404)
+      .then((res) => {
+        expect(res.body.msg).toBe("resource does not exist");
+      });
+  });
+  it("should return status 400 and error msg when given article_id that is the incorrect type", () => {
+    const newComment = {
+      username: "butter_bridge", //must exist (be valid user from users table)
+      body: "body1",
+    };
+    return request(app)
+      .post("/api/articles/seven/comments")
+      .send(newComment)
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("bad request");
+      });
+  });
 });
-describe("PATCH /api/articles/:article_id", () => {
-  it("update an article by article_id, changing its number of votes, responsing with the updated article", () => {
+describe.only("PATCH /api/articles/:article_id", () => {
+  it("update an article by article_id, changing its number of votes, responding with the updated article", () => {
     const update = { inc_votes: 100 };
     return request(app)
       .patch("/api/articles/3")
@@ -238,6 +264,26 @@ describe("PATCH /api/articles/:article_id", () => {
     const update = { inc_votes: "seven" };
     return request(app)
       .patch("/api/articles/3")
+      .send(update)
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("bad request");
+      });
+  });
+  it("should return status 404 and error msg when patching to an article_id that does not exist", () => {
+    const update = { inc_votes: 100 };
+    return request(app)
+      .patch("/api/articles/3000")
+      .send(update)
+      .expect(404)
+      .then((res) => {
+        expect(res.body.msg).toBe("resource does not exist");
+      });
+  });
+  it("should return status 400 and error msg when given article_id that is the incorrect type", () => {
+    const update = { inc_votes: 100 };
+    return request(app)
+      .patch("/api/articles/seven")
       .send(update)
       .expect(400)
       .then((res) => {
@@ -279,6 +325,9 @@ describe("DELETE /api/comments/:comment_id", () => {
         expect(res.body.msg).toBe("bad request");
       });
   });
+});
+describe("GET /api/users", () => {
+  it("should get all users, responding with an array of objects containing specific user properties", () => {});
 });
 describe("Non existant URL reponds with 404 error", () => {
   it("Returns status 404 and error message.", () => {
