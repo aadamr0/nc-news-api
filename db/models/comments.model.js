@@ -17,21 +17,35 @@ function selectCommentsByArticleId(article_id) {
       [article_id]
     )
   );
-  return Promise.all(promises)
-  .then((results) => {
+  return Promise.all(promises).then((results) => {
     // is this the correct way to do it?
     if (!results[0].rows.length && !results[1].rows.length) {
-      return Promise.reject({status: 404, msg: 'resource does not exist'})
+      return Promise.reject({ status: 404, msg: "resource does not exist" });
     } else {
-      return results[0].rows
+      return results[0].rows;
     }
-  })
+  });
 }
 
 function insertCommentByArticleId(article_id, username, body) {
-  console.log("hello");
-  console.log(article_id, username, body);
-  return Promise.resolve({ status: 200, msg: "resolved" });
+  if (!article_id || !username || !body) {
+    return Promise.reject({ status: 400, msg: "bad request" });
+  }
+  // why can't we put something equivalent to this ^ in the controller? doesn't seem to work.
+
+  return db
+    .query(
+      `INSERT INTO comments (body, article_id, author)
+  VALUES ($1, $2, $3)
+  RETURNING *`,
+      [body, article_id, username]
+    )
+    .then((result) => {
+      return result.rows[0];
+    })
+    .catch((err) => {
+      return Promise.reject(err);
+    });
 }
 
 module.exports = { selectCommentsByArticleId, insertCommentByArticleId };
