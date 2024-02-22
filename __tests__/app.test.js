@@ -327,7 +327,21 @@ describe("DELETE /api/comments/:comment_id", () => {
   });
 });
 describe("GET /api/users", () => {
-  it("should get all users, responding with an array of objects containing specific user properties", () => {});
+  it("should get all users, responding with an array of objects containing specific user properties, and with status 200", () => {
+    return request(app)
+    .get('/api/users')
+    .expect(200)
+    .then((response) => {
+      response.body.usersArr.forEach((user) => {
+        expect(user.hasOwnProperty('username')).toBe(true)
+        expect(user.hasOwnProperty('name')).toBe(true)
+        expect(user.hasOwnProperty("avatar_url")).toBe(true);
+        expect(typeof user.username).toBe('string')
+        expect(typeof user.name).toBe('string')
+        expect(typeof user.avatar_url).toBe("string");
+      })
+    })
+  });
 });
 describe("Non existant URL reponds with 404 error", () => {
   it("Returns status 404 and error message.", () => {

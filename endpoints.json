@@ -54,5 +54,11 @@
     "queries": [],
     "exampleResponse": {},
     "requestFormat": ""
+  },
+  "GET /api/users": {
+    "description": "deletes a comment by comment_id",
+    "queries": [],
+    "exampleResponse": {},
+    "requestFormat": ""
   }
 }
