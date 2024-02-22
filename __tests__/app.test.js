@@ -237,7 +237,7 @@ describe("POST /api/articles/:article_id/comments", () => {
       });
   });
 });
-describe.only("PATCH /api/articles/:article_id", () => {
+describe("PATCH /api/articles/:article_id", () => {
   it("update an article by article_id, changing its number of votes, responding with the updated article", () => {
     const update = { inc_votes: 100 };
     return request(app)
