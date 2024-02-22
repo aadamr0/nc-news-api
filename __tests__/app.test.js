@@ -170,7 +170,7 @@ describe("GET /api/articles/:article_id/comments", () => {
       });
   });
 });
-describe.only("POST /api/articles/:article_id/comments", () => {
+describe("POST /api/articles/:article_id/comments", () => {
   it("adds a comment to an article, responding with the comment", () => {
     const newComment = {
       username: "butter_bridge", //must exist (be valid user from users table)

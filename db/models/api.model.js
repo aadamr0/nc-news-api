@@ -7,7 +7,6 @@ function selectApis() {
       return JSON.parse(results);
     })
     .catch((err) => {
-      console.log(err);
       return err;
     });
 }
