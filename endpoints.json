@@ -36,5 +36,11 @@
     "queries": [],
     "exampleResponse": {},
     "requestFormat": ""
+  },
+  "POST /api/articles/:article_id/comments": {
+    "description": "posts a comment to with correct article_id",
+    "queries": [],
+    "exampleResponse": {},
+    "requestFormat": ""
   }
 }
