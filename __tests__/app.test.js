@@ -235,10 +235,45 @@ describe("PATCH /api/articles/:article_id", () => {
       });
   });
   it("should return status 400 when given a valid body with inappropriate values (faliing schema validation)", () => {
-    const update = { inc_votes: 'seven' };
+    const update = { inc_votes: "seven" };
     return request(app)
       .patch("/api/articles/3")
       .send(update)
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("bad request");
+      });
+  });
+});
+describe("DELETE /api/comments/:comment_id", () => {
+  it("should delete the comment given by comment_id, responding with status 204 and no content", () => {
+    const comment_id = 4;
+    return request(app)
+      .delete(`/api/comments/${comment_id}`)
+      .expect(204)
+      .then((res) => {
+        expect(res.body).toEqual({});
+      })
+      .then(() => {
+        return db.query(`SELECT * FROM comments`);
+      })
+      .then((results) => {
+        results.rows.forEach((comment) => {
+          expect(comment.comment_id).not.toBe(comment_id);
+        });
+      });
+  });
+  it("should respond with status 404 if given out-of-range comment_id", () => {
+    return request(app)
+      .delete("/api/comments/4000")
+      .expect(404)
+      .then((res) => {
+        expect(res.body.msg).toBe("not found");
+      });
+  });
+  it("should respond with status 400 if given invalid type of arg for comment_id", () => {
+    return request(app)
+      .delete("/api/comments/seven")
       .expect(400)
       .then((res) => {
         expect(res.body.msg).toBe("bad request");
