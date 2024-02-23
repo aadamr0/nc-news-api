@@ -16,10 +16,15 @@ function getArticleById(req, res, next) {
 }
 
 function getArticles(req, res, next) {
-  selectArticles().then((articlesArray) => {
-    res.status(200).send({ articlesArray });
-    // 500 status error means nothing is being sent - controller not sending anything... problem in model
-  });
+  const { topic } = req.query;
+  selectArticles(topic)
+    .then((articlesArray) => {
+      res.status(200).send({ articlesArray });
+      // 500 status error means nothing is being sent - controller not sending anything... problem in model
+    })
+    .catch((err) => {
+      next(err);
+    });
 }
 
 function patchArticleByArticleId(req, res, next) {
