@@ -9,7 +9,6 @@ function selectArticleById(article_id) {
       [article_id]
     )
     .then((article) => {
-      console.log(article.rows);
       if (article.rows.length) return article.rows[0];
       else return Promise.reject({ status: 404, msg: "route does not exist" });
     })

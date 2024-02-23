@@ -298,16 +298,11 @@ describe("DELETE /api/comments/:comment_id", () => {
     return request(app)
       .delete(`/api/comments/${comment_id}`)
       .expect(204)
-      .then((res) => {
-        expect(res.body).toEqual({});
-      })
       .then(() => {
-        return db.query(`SELECT * FROM comments`);
+        return db.query(`SELECT * FROM comments WHERE comment_id=$1`, [comment_id]);
       })
       .then((results) => {
-        results.rows.forEach((comment) => {
-          expect(comment.comment_id).not.toBe(comment_id);
-        });
+        expect(results.rows).toHaveLength(0)
       });
   });
   it("should respond with status 404 if given out-of-range comment_id", () => {
