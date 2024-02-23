@@ -1,14 +1,15 @@
 const db = require("../connection.js");
-const checkExists = require("../utils.js");
 
 function selectArticleById(article_id) {
   return db
     .query(
-      `SELECT * FROM articles
-  WHERE article_id = $1`,
+      `SELECT articles.*, CAST(COUNT(comments.*) AS INT) AS comment_count FROM articles JOIN comments ON comments.article_id=articles.article_id
+      WHERE articles.article_id = $1
+      GROUP BY articles.article_id`,
       [article_id]
     )
     .then((article) => {
+      console.log(article.rows);
       if (article.rows.length) return article.rows[0];
       else return Promise.reject({ status: 404, msg: "route does not exist" });
     })
@@ -24,7 +25,7 @@ function selectArticles(topic) {
 
   const queryVals = [];
   let queryStr =
-    "SELECT articles.article_id, articles.title, articles.topic, articles.author, articles.created_at, articles.votes, articles.article_img_url, COUNT(comments.*) AS comment_count FROM articles JOIN comments ON comments.article_id=articles.article_id";
+    "SELECT articles.article_id, articles.title, articles.topic, articles.author, articles.created_at, articles.votes, articles.article_img_url, CAST(COUNT(comments.*) AS INT) AS comment_count FROM articles JOIN comments ON comments.article_id=articles.article_id";
 
   if (topic) {
     queryStr += ` WHERE articles.topic=$1`;
@@ -33,14 +34,9 @@ function selectArticles(topic) {
 
   queryStr += ` GROUP BY articles.article_id ORDER BY created_at DESC`;
 
-  return db
-    .query(queryStr, queryVals)
-    .then((result) => {
-      return result.rows;
-    })
-    .catch((err) => {
-      console.log(err, "err a model");
-    });
+  return db.query(queryStr, queryVals).then((result) => {
+    return result.rows;
+  });
 }
 
 function updateArticleVotes(article_id, inc_votes) {
