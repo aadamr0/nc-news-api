@@ -1,4 +1,5 @@
 const db = require("../connection.js");
+const checkExists = require("../utils.js");
 
 function selectArticleById(article_id) {
   return db
@@ -16,23 +17,29 @@ function selectArticleById(article_id) {
     });
 }
 
-function selectArticles() {
+function selectArticles(topic) {
   // aim: return articles with no body and a comments count
   // to get information from 2 tables in 1 query you must join them
   // group by: ?
+
+  const queryVals = [];
+  let queryStr =
+    "SELECT articles.article_id, articles.title, articles.topic, articles.author, articles.created_at, articles.votes, articles.article_img_url, COUNT(comments.*) AS comment_count FROM articles JOIN comments ON comments.article_id=articles.article_id";
+
+  if (topic) {
+    queryStr += ` WHERE articles.topic=$1`;
+    queryVals.push(topic);
+  }
+
+  queryStr += ` GROUP BY articles.article_id ORDER BY created_at DESC`;
+
   return db
-    .query(
-      `SELECT articles.article_id, articles.title, articles.topic, articles.author, articles.created_at, articles.votes, articles.article_img_url, COUNT(comments.*) AS comment_count FROM articles
-    JOIN comments ON comments.article_id=articles.article_id
-    GROUP BY articles.article_id
-    ORDER BY created_at DESC;
-    `
-    )
+    .query(queryStr, queryVals)
     .then((result) => {
       return result.rows;
     })
     .catch((err) => {
-      console.log(err);
+      console.log(err, "err a model");
     });
 }
 
