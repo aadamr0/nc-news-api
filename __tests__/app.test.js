@@ -61,6 +61,7 @@ describe("GET /api/articles/:article_id", () => {
       .get("/api/articles/1")
       .expect(200)
       .then((response) => {
+        // use to match object, take out comment count, add another test for the query
         expect(response.body).toEqual({
           article_id: 1,
           title: "Living in the shadow of a great man",
@@ -71,7 +72,7 @@ describe("GET /api/articles/:article_id", () => {
           votes: 100,
           article_img_url:
             "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
-          comment_count: 11
+          comment_count: 11,
         });
       });
   });
@@ -122,6 +123,34 @@ describe("GET /api/articles", () => {
           descending: true,
         });
       });
+  });
+  describe("GET /api/articles (topic query)", () => {
+    it("should filter the articles by the topic value specified in the query", () => {
+      return request(app)
+        .get("/api/articles?topic=cats")
+        .expect(200)
+        .then((response) => {
+          response.body.articlesArray.forEach((article) => {
+            expect(article.topic).toBe("cats");
+          });
+        });
+    });
+    it("should should respond with status 400 and err messgae if nonexistant topic is requested", () => {
+      return request(app)
+        .get("/api/articles?topic=animals")
+        .expect(400)
+        .then((res) => {
+          expect(res.body.msg).toBe("bad request");
+        });
+    });
+    it("should respond with status 200 and empty array if requested valid topic with no matching articles", () => {
+      return request(app)
+        .get("/api/articles?topic=paper")
+        .expect(200)
+        .then((res) => {
+          expect(res.body.articlesArray).toEqual([]);
+        });
+    });
   });
 });
 describe("GET /api/articles/:article_id/comments", () => {
@@ -299,10 +328,12 @@ describe("DELETE /api/comments/:comment_id", () => {
       .delete(`/api/comments/${comment_id}`)
       .expect(204)
       .then(() => {
-        return db.query(`SELECT * FROM comments WHERE comment_id=$1`, [comment_id]);
+        return db.query(`SELECT * FROM comments WHERE comment_id=$1`, [
+          comment_id,
+        ]);
       })
       .then((results) => {
-        expect(results.rows).toHaveLength(0)
+        expect(results.rows).toHaveLength(0);
       });
   });
   it("should respond with status 404 if given out-of-range comment_id", () => {
@@ -339,26 +370,7 @@ describe("GET /api/users", () => {
       });
   });
 });
-describe("GET /api/articles (topic query)", () => {
-  it("should filter the articles by the topic value specified in the query", () => {
-    return request(app)
-      .get("/api/articles?topic=cats")
-      .expect(200)
-      .then((response) => {
-        response.body.articlesArray.forEach((article) => {
-          expect(article.topic).toBe("cats");
-        });
-      });
-  });
-  it("should should respond with empty array if nonexistant topic is requested", () => {
-    return request(app)
-      .get("/api/articles?topic=animals")
-      .expect(200)
-      .then((res) => {
-        expect(res.body.articlesArray).toEqual([]);
-      });
-  });
-});
+
 describe("Non existant URL reponds with 404 error", () => {
   it("Returns status 404 and error message.", () => {
     return request(app)

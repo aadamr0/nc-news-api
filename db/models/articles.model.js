@@ -1,3 +1,4 @@
+const format = require("pg-format");
 const db = require("../connection.js");
 
 function selectArticleById(article_id) {
@@ -18,10 +19,6 @@ function selectArticleById(article_id) {
 }
 
 function selectArticles(topic) {
-  // aim: return articles with no body and a comments count
-  // to get information from 2 tables in 1 query you must join them
-  // group by: ?
-
   const queryVals = [];
   let queryStr =
     "SELECT articles.article_id, articles.title, articles.topic, articles.author, articles.created_at, articles.votes, articles.article_img_url, CAST(COUNT(comments.*) AS INT) AS comment_count FROM articles JOIN comments ON comments.article_id=articles.article_id";
