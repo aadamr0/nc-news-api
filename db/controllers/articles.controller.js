@@ -3,6 +3,7 @@ const {
   selectArticles,
   updateArticleVotes,
 } = require("../models/articles.model");
+const { selectTopics } = require("../models/topics.model");
 
 function getArticleById(req, res, next) {
   const { article_id } = req.params;
@@ -17,14 +18,33 @@ function getArticleById(req, res, next) {
 
 function getArticles(req, res, next) {
   const { topic } = req.query;
-  selectArticles(topic)
+  const promises = [];
+  if (!topic) {
+    selectArticles()
     .then((articlesArray) => {
-      res.status(200).send({ articlesArray });
-      // 500 status error means nothing is being sent - controller not sending anything... problem in model
+      res.status(200).send({articlesArray})
     })
     .catch((err) => {
-      next(err);
+      next(err)
+    })
+  } else {
+    promises.push(selectTopics());
+    
+    promises.push(selectArticles(topic));
+  
+    Promise.all(promises).then((results) => {
+      const topicExists = !results[0].every(
+        (topicObj) => topicObj.slug !== topic
+      );
+      const articlesArray = results[1];
+  
+      if (!topicExists && results[1].length === 0) {
+        next({ status: 400, msg: "bad request" });
+      } else {
+        res.status(200).send({ articlesArray });
+      }
     });
+  }
 }
 
 function patchArticleByArticleId(req, res, next) {

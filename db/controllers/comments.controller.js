@@ -5,6 +5,7 @@ const {
 } = require("../models/comments.model.js");
 
 function getCommentsByArticleId(req, res, next) {
+  //call articles model get article by id. run multiple promises, ues promise.all in the contorller. and write a test for it.
   const { article_id } = req.params;
   selectCommentsByArticleId(article_id)
     .then((commentsArray) => {
