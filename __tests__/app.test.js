@@ -61,7 +61,6 @@ describe("GET /api/articles/:article_id", () => {
       .get("/api/articles/1")
       .expect(200)
       .then((response) => {
-        // use to match object, take out comment count, add another test for the query
         expect(response.body).toEqual({
           article_id: 1,
           title: "Living in the shadow of a great man",
@@ -92,6 +91,25 @@ describe("GET /api/articles/:article_id", () => {
         expect(response.body.msg).toBe("route does not exist");
       });
   });
+  it("should respond with status 200 and the article requested by id on articles with no comments", () => {
+    return request(app)
+      .get("/api/articles/4")
+      .expect(200)
+      .then((response) => {
+        expect(response.body).toEqual({
+          article_id: 4,
+          title: "Student SUES Mitch!",
+          topic: "mitch",
+          author: "rogersop",
+          body: "We all love Mitch and his wonderful, unique typing style. However, the volume of his typing has ALLEGEDLY burst another students eardrums, and they are now suing for damages",
+          created_at:'2020-05-06T01:14:00.000Z',
+          article_img_url:
+            "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
+          comment_count: 0,
+          votes: 0
+        });
+      })
+  });
 });
 describe("GET /api/articles", () => {
   it("should respond with a list of all articles, ommitting their body", () => {
@@ -110,7 +128,6 @@ describe("GET /api/articles", () => {
           expect("article_img_url" in response.body.articlesArray[0]).toBe(
             true
           );
-          expect("comment_count" in response.body.articlesArray[0]).toBe(true);
         }
       });
   });

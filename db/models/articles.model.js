@@ -1,21 +1,66 @@
-const format = require("pg-format");
 const db = require("../connection.js");
 
 function selectArticleById(article_id) {
+  let queryStr =
+    "SELECT articles.* FROM articles WHERE articles.article_id = $1";
+  // db.query(queryStr, [article_id])
+  // .then((resultingArticle) => {
+  //   console.log(result.rows, '<<<<< rows');
+
+  // })
   return db
-    .query(
-      `SELECT articles.*, CAST(COUNT(comments.*) AS INT) AS comment_count FROM articles JOIN comments ON comments.article_id=articles.article_id
-      WHERE articles.article_id = $1
-      GROUP BY articles.article_id`,
-      [article_id]
-    )
-    .then((article) => {
-      if (article.rows.length) return article.rows[0];
-      else return Promise.reject({ status: 404, msg: "route does not exist" });
+    .query(`SELECT * FROM comments WHERE article_id=$1`, [article_id])
+    .then((resultingComments) => {
+      // console.log(resultingComments, 'resulting comments <<<');
+      // if (resultingComments.rows.length === 0) {
+      //   return db
+      //     .query(`SELECT * FROM articles WHERE article_id = $1`, [article_id])
+      //     .then((results) => {
+      //       if (results.rows.length) return results.rows[0];
+      //       else
+      //         return Promise.reject({
+      //           status: 404,
+      //           msg: "route does not exist",
+      //         });
+      //     });
+      // } else {
+        return db
+          .query(
+            `SELECT articles.*, CAST(COUNT(comments.article_id) AS INT) AS comment_count FROM articles LEFT JOIN comments ON comments.article_id=articles.article_id
+          WHERE articles.article_id = $1
+          GROUP BY articles.article_id`,
+            [article_id]
+          )
+          .then((article) => {
+            if (article.rows.length) return article.rows[0];
+            else
+              return Promise.reject({
+                status: 404,
+                msg: "route does not exist",
+              });
+          });
+      
     })
     .catch((err) => {
       return Promise.reject(err);
     });
+
+  // return db
+  //   .query(
+  //     `SELECT articles.*, CAST(COUNT(comments.*) AS INT) AS comment_count FROM articles JOIN comments ON comments.article_id=articles.article_id
+  //     WHERE articles.article_id = $1
+  //     GROUP BY articles.article_id`,
+  //     [article_id]
+  //   )
+  //   .then((article) => {
+  //     console.log(article, "<<<<<<<Aritlce");
+  //     if (article.rows.length) return article.rows[0];
+  //     else return Promise.reject({ status: 404, msg: "route does not exist" });
+  //   })
+  //   .catch((err) => {
+  //     console.log(err, '<<<<<er');
+  //     return Promise.reject(err);
+  //   });
 }
 
 function selectArticles(topic) {
