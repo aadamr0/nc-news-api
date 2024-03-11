@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const { getTopics } = require("./controllers/topics.controller.js");
 const { getApi } = require("./controllers/api.controller.js");
 const {
@@ -11,9 +12,11 @@ const {
   postCommentByArticleId,
   deleteCommentById,
 } = require("./controllers/comments.controller.js");
-const {getAllUsers} = require('./controllers/users.controller.js')
+const { getAllUsers } = require("./controllers/users.controller.js");
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 
@@ -33,7 +36,7 @@ app.patch("/api/articles/:article_id", patchArticleByArticleId);
 
 app.delete("/api/comments/:comment_id", deleteCommentById);
 
-app.get('/api/users', getAllUsers)
+app.get("/api/users", getAllUsers);
 
 app.all("/*", (req, res, next) => {
   res.status(404).send({ msg: "route does not exist" });
