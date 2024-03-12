@@ -38,7 +38,7 @@
     "requestFormat": ""
   },
   "POST /api/articles/:article_id/comments": {
-    "description": "posts a comment to with correct article_id",
+    "description": "posts a comment to with correct article_id. req body must contain an existing username.",
     "queries": [],
     "exampleResponse": {},
     "requestFormat": ""

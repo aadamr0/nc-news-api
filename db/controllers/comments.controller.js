@@ -19,6 +19,7 @@ function getCommentsByArticleId(req, res, next) {
 function postCommentByArticleId(req, res, next) {
   const { article_id } = req.params;
   const { username, body } = req.body;
+  console.log(username, body, 'username body <<<<');
 
   insertCommentByArticleId(article_id, username, body)
     .then((commentObj) => {
