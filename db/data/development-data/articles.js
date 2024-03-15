@@ -262,14 +262,14 @@ module.exports = [
       "https://images.pexels.com/photos/2284166/pexels-photo-2284166.jpeg?w=700&h=700",
   },
   {
-    title: "Thanksgiving Drinks for Everyone",
+    title: "Article",
     topic: "cooking",
     author: "grumpy19",
-    body: "Thanksgiving is a foodie’s favorite holiday. Mashed potatoes, cranberry sauce, stuffing, and last but not least, a juicy turkey. Don’t let your meticulous menu fall short of perfection; flavorful cocktails are just as important as the meal. Here are a few ideas that will fit right into your festivities.",
+    body: "Food.",
     created_at: 1579908120000,
     votes: 0,
     article_img_url:
-      "https://images.pexels.com/photos/1565982/pexels-photo-1565982.jpeg?w=700&h=700",
+      "",
   },
   {
     title: "High Altitude Cooking",
