@@ -16,7 +16,7 @@ To clone the repository, run:<br>
 
 ### Installing dependencies <br>
 
-This project uses [Node.js](https://nodejs.org/en), please make sure it's install to run the project <br>
+This project uses [Node.js](https://nodejs.org/en), please make sure it's installed to run the project <br>
 Use the Node.js package manager 'npm' to install dependencies by running `npm install` <br>
 This project has the following dependencies<br>
 ├── cors@2.8.5 <br>
