@@ -41,7 +41,7 @@ To set up and seed the local databases:<br>
 
 1. Make sure to [install Postgres v.2.7](https://postgresapp.com/downloads.html)
    <br>
-2. Add to the project's parent folder, 'NC-NEWS-API', two .env files: <br>
+2. Add to the project's parent folder, 'nc-news-api', two .env files: <br>
 
    1. .env.test<br>
       Inside, write `PGDATABASE=nc_news_test`<br>
@@ -50,13 +50,13 @@ To set up and seed the local databases:<br>
       Inside, write `PGDATABASE=nc_news`<br>
       <br>
 
-3. Last, run the command: 'npm run setup-dbs'. This should set up the databases locally. They should automatically seed when running tests
+3. Last, run the command: `npm run setup-dbs`. This should set up the databases locally. They should automatically seed when running tests
    <br>
 
 ### Testing<br>
 
-To test the app, run the command: 'npm t app'. This should test the different endpoints for their expected uses and for correct error handling
+To test the app, run the command: `npm t app`. This should test the different endpoints for their expected uses and for correct error handling
 
 ### Hosting the AIP locally<br>
 
-To host the API locally, run `npm run start`. You can then use an app like [Insomnia](https://insomnia.rest/) or search engine to make requests to the API through the path `localhost:9090'. The port number for hosting can be changed in the file 'listen.js'
+To host the API locally, run `npm run start`. You can then use an app like [Insomnia](https://insomnia.rest/) or search engine to make requests to the API through the path 'localhost:9090'. The port number for hosting can be changed in the file 'listen.js'
