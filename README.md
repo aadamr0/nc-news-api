@@ -9,8 +9,7 @@ This project is a backend API of various endpoints, each endpoint serves differe
 
 ### Cloning the repository<br>
 
-To clone the repository, run:<br>
-`git clone https://github.com/aadamr0/nc-news-api.git`<br>
+To clone the repository, run `git clone https://github.com/aadamr0/nc-news-api.git`<br>
 
 ### Installing dependencies <br>
 
