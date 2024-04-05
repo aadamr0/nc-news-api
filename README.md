@@ -1,6 +1,6 @@
 # Northcoders News API
 
-[Link to the API](https://nc-news-api-ffu7.onrender.com/api)<br>
+[Link to the API hosted online](https://nc-news-api-ffu7.onrender.com/api)<br>
 
 ### About the project:<br>
 
