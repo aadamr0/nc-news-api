@@ -49,4 +49,4 @@ To test the app, run the command: `npm t app`. This should test the different en
 
 ### Hosting the AIP locally<br>
 
-To host the API locally, run `npm run start`. You can then use an app like [Insomnia](https://insomnia.rest/) or search engine to make requests to the API through the path 'localhost:9090'. The port number for hosting can be changed in the file 'listen.js'
+To host the API locally, run `npm run start`. You can then use an app like [Insomnia](https://insomnia.rest/) or a search engine to make requests to the API through the path 'localhost:9090/api'. The port number for hosting can be changed in the file 'listen.js'
