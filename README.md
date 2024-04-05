@@ -16,7 +16,8 @@ To clone the repository, run:<br>
 
 ### Installing dependencies <br>
 
-This project uses the package manager npm. To install all dependencies, run `npm install` <br>
+This project uses [Node.js](https://nodejs.org/en), please make sure it's install to run the project <br>
+Use the Node.js package manager 'npm' to install dependencies by running `npm install` <br>
 This project has the following dependencies<br>
 ├── cors@2.8.5 <br>
 ├── dotenv@16.0.3 <br>
@@ -39,10 +40,8 @@ To set up and seed the local databases:<br>
 <br>
 
 1. Make sure to [install Postgres v.2.7](https://postgresapp.com/downloads.html)
-   <br>as well as [Node.js v.20](https://nodejs.org/en/download/)<br>
    <br>
 2. Add to the project's parent folder, 'NC-NEWS-API', two .env files: <br>
-   <br>
 
    1. .env.test<br>
       Inside, write `PGDATABASE=nc_news_test`<br>
@@ -57,3 +56,7 @@ To set up and seed the local databases:<br>
 ### Testing<br>
 
 To test the app, run the command: 'npm t app'. This should test the different endpoints for their expected uses and for correct error handling
+
+### Hosting the AIP locally<br>
+
+To host the API locally, run `npm run start`. You can then use an app like [Insomnia](https://insomnia.rest/) or search engine to make requests to the API through the path `localhost:9090'. The port number for hosting can be changed in the file 'listen.js'
