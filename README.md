@@ -6,13 +6,11 @@ Please note - the hosting service is a little slow, it might take a moment to lo
 ### About the project:<br>
 
 This project is a backend API of various endpoints, each endpoint serves different data from a PostgresSql database. Visit the above link to see all available endpoints and their functionality<br>
-<br>
 
 ### Cloning the repository<br>
 
 To clone the repository, run:<br>
-`git clone https://github.com/aadamr0/nc-news-api.git`
-<br>
+`git clone https://github.com/aadamr0/nc-news-api.git`<br>
 
 ### Installing dependencies <br>
 
@@ -32,30 +30,22 @@ This project has the following dependencies<br>
 ├── pg-format@1.0.4 <br>
 ├── pg@8.8.0 <br>
 └── supertest@6.3.4 <br>
-<br>
 
 ### Seeding the local database <br>
 
 To set up and seed the local databases:<br>
-<br>
 
-1. Make sure to [install Postgres v.2.7](https://postgresapp.com/downloads.html)
-   <br>
+1. Make sure to [install Postgres v.2.7](https://postgresapp.com/downloads.html)<br>
 2. Add to the project's parent folder, 'nc-news-api', two .env files: <br>
-
    1. .env.test<br>
       Inside, write `PGDATABASE=nc_news_test`<br>
-      <br>
    2. .env.development<br>
       Inside, write `PGDATABASE=nc_news`<br>
-      <br>
-
-3. Last, run the command: `npm run setup-dbs`. This should set up the databases locally. They should automatically seed when running tests
-   <br>
+3. Last, run the command: `npm run setup-dbs`. This should set up the databases locally. They should automatically seed when running tests<br>
 
 ### Testing<br>
 
-To test the app, run the command: `npm t app`. This should test the different endpoints for their expected uses and for correct error handling
+To test the app, run the command: `npm t app`. This should test the different endpoints for their expected uses and for correct error handling<br>
 
 ### Hosting the AIP locally<br>
 
