@@ -32,22 +32,41 @@
     "requestFormat": ""
   },
   "GET /api/articles/:article_id": {
-    "description": "serves an array of all articles",
+    "description": "serves an article specified by article id",
     "queries": [],
-    "exampleResponse": {},
+    "exampleResponse": {
+      "article_id": 1,
+      "title": "Running a Node App",
+      "topic": "coding",
+      "author": "jessjelly",
+      "body": "This is part two of a series on how to get up and running with Systemd and Node.js. This part dives deeper into how to successfully run your app with systemd long-term, and how to set it up in a production environment.",
+      "created_at": "2020-11-07T06:03:00.000Z",
+      "votes": 0,
+      "article_img_url": "https://images.pexels.com/photos/11035380/pexels-photo-11035380.jpeg?w=700&h=700",
+      "comment_count": 9
+    },
     "requestFormat": ""
   },
   "POST /api/articles/:article_id/comments": {
-    "description": "posts a comment to with correct article_id. req body must contain an existing username.",
+    "description": "posts a comment, to article specified by article id. Request body must contain a pre existing username.",
     "queries": [],
-    "exampleResponse": {},
-    "requestFormat": ""
+    "exampleResponse": {
+      "commentObj": {
+        "comment_id": 304,
+        "body": "comment body 12345",
+        "article_id": 1,
+        "author": "tickle122",
+        "votes": 0,
+        "created_at": "2024-04-05T13:15:25.029Z"
+      }
+    },
+    "requestFormat": "{username: String, body: String}"
   },
   "PATCH /api/articles/:article_id": {
-    "description": "posts a comment to with correct article_id",
+    "description": "Sets the number of votes of an article to a specified number",
     "queries": [],
     "exampleResponse": {},
-    "requestFormat": ""
+    "requestFormat": "{inc_votes: Number}"
   },
   "DELETE /api/comments/:comment_id": {
     "description": "deletes a comment by comment_id",
@@ -56,7 +75,7 @@
     "requestFormat": ""
   },
   "GET /api/users": {
-    "description": "deletes a comment by comment_id",
+    "description": "serves an array of all users",
     "queries": [],
     "exampleResponse": {},
     "requestFormat": ""
