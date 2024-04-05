@@ -47,6 +47,31 @@
     },
     "requestFormat": ""
   },
+  "GET /api/articles/:article_id/comments": {
+    "description": "Serves an array of comments based of article_id",
+    "queries": [],
+    "exampleResponse": {
+      "commentsArray": [
+        {
+          "comment_id": 51,
+          "body": "Eius dolor ipsa eaque qui sed accusantium est tenetur omnis. Eligendi necessitatibus sunt voluptate occaecati et quis consequuntur aut. Maxime nihil ut quia culpa.",
+          "article_id": 3,
+          "author": "grumpy19",
+          "votes": -3,
+          "created_at": "2020-01-14T03:12:00.000Z"
+        },
+        {
+          "comment_id": 167,
+          "body": "Deleniti itaque et est unde autem. Labore illo commodi quaerat natus fugiat adipisci. Adipisci unde recusandae aliquam suscipit ipsum.",
+          "article_id": 3,
+          "author": "grumpy19",
+          "votes": 19,
+          "created_at": "2020-02-05T09:16:00.000Z"
+        }
+      ]
+    },
+    "requestFormat": "{username: String, body: String}"
+  },
   "POST /api/articles/:article_id/comments": {
     "description": "posts a comment, to article specified by article id. Request body must contain a pre existing username.",
     "queries": [],
