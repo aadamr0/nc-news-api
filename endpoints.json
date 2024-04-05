@@ -2,8 +2,13 @@
   "GET /api": {
     "description": "serves up a json representation of all the available endpoints of the api",
     "queries": [],
-    "exampleResponse": {},
-    "requestFormat": ""
+    "exampleResponse": {
+      "apiObj": {
+        "GET /api": {},
+        "GET /api/topics": {}
+      },
+      "requestFormat": ""
+    }
   },
   "GET /api/topics": {
     "description": "serves an array of all topics",
@@ -15,7 +20,7 @@
   },
   "GET /api/articles": {
     "description": "serves an array of all articles",
-    "queries": ["author", "topic", "sort_by", "order"],
+    "queries": ["topic", "sort_by"],
     "exampleResponse": {
       "articles": [
         {
@@ -48,7 +53,7 @@
     "requestFormat": ""
   },
   "GET /api/articles/:article_id/comments": {
-    "description": "Serves an array of comments based of article_id",
+    "description": "Serves an array of comments based off article_id",
     "queries": [],
     "exampleResponse": {
       "commentsArray": [
@@ -70,10 +75,10 @@
         }
       ]
     },
-    "requestFormat": "{username: String, body: String}"
+    "requestFormat": ""
   },
   "POST /api/articles/:article_id/comments": {
-    "description": "posts a comment, to article specified by article id. Request body must contain a pre existing username.",
+    "description": "posts a comment, to an article specified by article id. Request body must contain a pre existing username",
     "queries": [],
     "exampleResponse": {
       "commentObj": {
@@ -90,7 +95,18 @@
   "PATCH /api/articles/:article_id": {
     "description": "Sets the number of votes of an article to a specified number",
     "queries": [],
-    "exampleResponse": {},
+    "exampleResponse": {
+      "article": {
+        "article_id": 7,
+        "title": "Using React Native: One Year Later",
+        "topic": "coding",
+        "author": "tickle122",
+        "body": "When I interviewed for the iOS developer opening at Discord last spring, the tech lead Stanislav told me: React Native is the future. We will use it to build our iOS app from scratch as soon as it becomes public. As a native iOS developer, I strongly doubted using web technologies to build mobile apps because of my previous experiences with tools like PhoneGap. But after learning and using React Native for a while, I am glad we made that decision.",
+        "created_at": "2020-10-18T00:26:00.000Z",
+        "votes": 7,
+        "article_img_url": "https://images.pexels.com/photos/6424586/pexels-photo-6424586.jpeg?w=700&h=700"
+      }
+    },
     "requestFormat": "{inc_votes: Number}"
   },
   "DELETE /api/comments/:comment_id": {
@@ -102,7 +118,20 @@
   "GET /api/users": {
     "description": "serves an array of all users",
     "queries": [],
-    "exampleResponse": {},
+    "exampleResponse": {
+      "usersArr": [
+        {
+          "username": "tickle122",
+          "name": "Tom Tickle",
+          "avatar_url": "https://vignette.wikia.nocookie.net/mrmen/images/d/d6/Mr-Tickle-9a.png/revision/latest?cb=20180127221953"
+        },
+        {
+          "username": "grumpy19",
+          "name": "Paul Grump",
+          "avatar_url": "https://vignette.wikia.nocookie.net/mrmen/images/7/78/Mr-Grumpy-3A.PNG/revision/latest?cb=20170707233013"
+        }
+      ]
+    },
     "requestFormat": ""
   }
 }
